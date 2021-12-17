@@ -1,0 +1,6 @@
+name: DifficultyTweaks
+version: '${project.version}'
+main: me.unleqitq.difficultytweaks.DifficultyTweaks
+api-version: 1.17
+load: STARTUP
+authors: [ UnleqitQ ]
