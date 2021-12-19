@@ -4,6 +4,7 @@ import me.unleqitq.difficultytweaks.Configuration;
 import me.unleqitq.difficultytweaks.DifficultyTweaks;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
@@ -24,18 +25,25 @@ public class FistBreakListener implements Listener {
 	public static Map<Material, ToolType> types;
 	
 	public FistBreakListener() {
-		Bukkit.getPluginManager().registerEvents(this, DifficultyTweaks.getInstance());
-		types = new HashMap<>();
-		for (String type : Configuration.FistBreakDamage.types()) {
-			new ToolType(type);
+		if (Configuration.FistBreakDamage.enable()) {
+			Bukkit.getPluginManager().registerEvents(this, DifficultyTweaks.getInstance());
+			types = new HashMap<>();
+			for (String type : Configuration.FistBreakDamage.types()) {
+				if (Configuration.FistBreakDamage.Type.enable(type)) {
+					new ToolType(type);
+				}
+			}
+			
 		}
 	}
 	
 	@EventHandler
 	public void onHitBlock(PlayerInteractEvent event) {
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
 		if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
 			Block block = Objects.requireNonNull(event.getClickedBlock());
-			ItemStack item = Objects.requireNonNull(event.getItem());
 			Material tool = event.getMaterial();
 			if (types.containsKey(block.getType())) {
 				ToolType type = types.get(block.getType());
@@ -46,12 +54,18 @@ public class FistBreakListener implements Listener {
 								20, 20);
 					}
 					else {
+						ItemStack item = event.getItem();
 						if (item.getItemMeta() instanceof Damageable) {
 							Damageable meta = (Damageable) item.getItemMeta();
 							meta.setDamage(meta.getDamage() + 2);
+							item.setItemMeta(meta);
+							if (meta.getDamage() >= tool.getMaxDurability()) {
+								item.setAmount(item.getAmount() - 1);
+							}
 						}
 						else {
 							item.setAmount(item.getAmount() - 1);
+							event.getPlayer().sendMessage("" + item.getAmount());
 						}
 						event.getPlayer().sendTitle(ChatColor.RED + "Damn it",
 								ChatColor.GOLD + "Get some appropriate tools first", 0, 20, 20);
@@ -75,6 +89,7 @@ public class FistBreakListener implements Listener {
 			tools = new HashSet<>();
 			for (String block : blockList) {
 				try {
+					Bukkit.getLogger().log(Level.INFO, block);
 					blocks.add(Material.getMaterial(block));
 					FistBreakListener.types.put(Material.getMaterial(block), this);
 				} catch (NullPointerException e) {

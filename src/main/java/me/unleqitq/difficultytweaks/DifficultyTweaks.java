@@ -2,6 +2,8 @@ package me.unleqitq.difficultytweaks;
 
 import me.unleqitq.difficultytweaks.listeners.EndermanListener;
 import me.unleqitq.difficultytweaks.listeners.FistBreakListener;
+import me.unleqitq.difficultytweaks.tasks.NetherBoilingTask;
+import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,11 +20,16 @@ public final class DifficultyTweaks extends JavaPlugin {
 		Configuration.loadConfig();
 		new EndermanListener();
 		new FistBreakListener();
+		
+		if (Configuration.NetherBoiling.enable()) {
+			Bukkit.getScheduler().runTaskTimer(this, new NetherBoilingTask(), 20, 10);
+		}
 	}
 	
 	@Override
 	public void onDisable() {
 		HandlerList.unregisterAll(this);
+		Bukkit.getScheduler().cancelTasks(this);
 	}
 	
 	public static DifficultyTweaks getInstance() {
