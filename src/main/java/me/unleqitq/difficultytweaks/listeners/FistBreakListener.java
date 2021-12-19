@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -39,8 +40,9 @@ public class FistBreakListener implements Listener {
 		}
 	}
 	
+	@SuppressWarnings ("deprecation")
 	@EventHandler
-	public void onHitBlock(PlayerInteractEvent event) {
+	public void onHitBlock(@NotNull PlayerInteractEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
 			return;
 		}
@@ -54,6 +56,7 @@ public class FistBreakListener implements Listener {
 						event.getPlayer().damage(2);
 						EntityDamageByBlockEvent cause = new EntityDamageByBlockEvent(block, event.getPlayer(),
 								EntityDamageEvent.DamageCause.CONTACT, 2);
+						cause.setDamage(EntityDamageEvent.DamageModifier.MAGIC, -1);
 						event.getPlayer().setLastDamageCause(cause);
 						event.getPlayer().sendTitle(ChatColor.RED + "Ouch", ChatColor.GOLD + "Get some tools first", 0,
 								20, 20);
