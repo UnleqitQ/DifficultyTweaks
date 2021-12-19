@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
@@ -50,6 +52,9 @@ public class FistBreakListener implements Listener {
 				if (!type.tools.contains(tool)) {
 					if (tool == Material.AIR) {
 						event.getPlayer().damage(2);
+						EntityDamageByBlockEvent cause = new EntityDamageByBlockEvent(block, event.getPlayer(),
+								EntityDamageEvent.DamageCause.CONTACT, 2);
+						event.getPlayer().setLastDamageCause(cause);
 						event.getPlayer().sendTitle(ChatColor.RED + "Ouch", ChatColor.GOLD + "Get some tools first", 0,
 								20, 20);
 					}
