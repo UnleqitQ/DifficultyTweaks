@@ -9,6 +9,10 @@ public final class DifficultyTweaks extends JavaPlugin {
 	
 	private static DifficultyTweaks instance;
 	
+	public DifficultyTweaks() {
+		instance = this;
+	}
+	
 	@Override
 	public void onEnable() {
 		Configuration.loadConfig();
