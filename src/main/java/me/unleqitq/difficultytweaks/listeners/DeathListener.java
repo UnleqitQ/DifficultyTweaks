@@ -14,10 +14,10 @@ public class DeathListener implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, DifficultyTweaks.getInstance());
 	}
 	
-	@SuppressWarnings ("deprecation")
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		if (event.getEntity().getLastDamageCause().getDamage(EntityDamageEvent.DamageModifier.MAGIC) == -1) {
+		event.getEntity().sendMessage(event.getEntity().getLastDamageCause().getDamage() + "");
+		if (event.getEntity().getLastDamageCause().getDamage() == -1) {
 			Bukkit.broadcastMessage(Color.RED + event.getEntity().getDisplayName() + " did not think of making tools!");
 		}
 	}

@@ -7,11 +7,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -19,6 +21,7 @@ import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -53,11 +56,11 @@ public class FistBreakListener implements Listener {
 				ToolType type = types.get(block.getType());
 				if (!type.tools.contains(tool)) {
 					if (tool == Material.AIR) {
-						event.getPlayer().damage(2);
-						EntityDamageByBlockEvent cause = new EntityDamageByBlockEvent(block, event.getPlayer(),
+						//event.getPlayer().damage(2);
+						FistHitEvent cause = new FistHitEvent(block, event.getPlayer(),
 								EntityDamageEvent.DamageCause.CONTACT, 2);
-						cause.setDamage(EntityDamageEvent.DamageModifier.MAGIC, -1);
-						event.getPlayer().setLastDamageCause(cause);
+						//event.getPlayer().setLastDamageCause(cause);
+						Bukkit.getPluginManager().callEvent(cause);
 						event.getPlayer().sendTitle(ChatColor.RED + "Ouch", ChatColor.GOLD + "Get some tools first", 0,
 								20, 20);
 					}
@@ -113,6 +116,14 @@ public class FistBreakListener implements Listener {
 					Bukkit.getLogger().log(Level.WARNING, "Please check your config");
 				}
 			}
+		}
+		
+	}
+	
+	public static class FistHitEvent extends EntityDamageByBlockEvent {
+		
+		public FistHitEvent(@Nullable final Block damager, @NotNull final Entity damagee, @NotNull final DamageCause cause, final double damage) {
+			super(damager, damagee, cause, damage);
 		}
 		
 	}
