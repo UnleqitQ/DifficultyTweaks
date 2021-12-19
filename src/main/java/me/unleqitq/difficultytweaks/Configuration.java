@@ -28,7 +28,10 @@ public class Configuration {
 	private static void createDefaults() {
 		defaults.put("fistBreakDamage.enable", true);
 		defaults.put("netherBoiling.enable", true);
-		defaults.put("netherBoiling.damagePerSecond", 0.5);
+		defaults.put("netherBoiling.damageHelmet", 0.5);
+		defaults.put("netherBoiling.damageChestplate", 0.5);
+		defaults.put("netherBoiling.damageLeggings", 0.5);
+		defaults.put("netherBoiling.damageBoots", 0.5);
 		{
 			defaults.put("fistBreakDamage.log.enable", true);
 			List<String> blocks = new ArrayList<>();
@@ -190,8 +193,17 @@ public class Configuration {
 			return Configuration.config.getBoolean("netherBoiling.enable");
 		}
 		
-		public static double damagePerSecond() {
-			return Configuration.config.getDouble("netherBoiling.damagePerSecond");
+		public static double damageHelmet() {
+			return Configuration.config.getDouble("netherBoiling.damageHelmet");
+		}
+		public static double damageChestplate() {
+			return Configuration.config.getDouble("netherBoiling.damageChestplate");
+		}
+		public static double damageLeggings() {
+			return Configuration.config.getDouble("netherBoiling.damageHelmet");
+		}
+		public static double damageBoots() {
+			return Configuration.config.getDouble("netherBoiling.damageHelmet");
 		}
 		
 	}
