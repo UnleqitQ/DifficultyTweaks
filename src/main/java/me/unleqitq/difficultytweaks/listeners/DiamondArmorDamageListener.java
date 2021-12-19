@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.Damageable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -30,7 +31,7 @@ public class DiamondArmorDamageListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onHitBlock(PlayerMoveEvent event) {
+	public void onHitBlock(@NotNull PlayerMoveEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
 			return;
 		}
