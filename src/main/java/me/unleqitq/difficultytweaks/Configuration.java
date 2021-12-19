@@ -27,11 +27,19 @@ public class Configuration {
 	
 	private static void createDefaults() {
 		defaults.put("fistBreakDamage.enable", true);
+		
 		defaults.put("netherBoiling.enable", true);
 		defaults.put("netherBoiling.damageHelmet", 0.5);
-		defaults.put("netherBoiling.damageChestplate", 0.5);
+		defaults.put("netherBoiling.damageChestplate", 0.7);
 		defaults.put("netherBoiling.damageLeggings", 0.5);
-		defaults.put("netherBoiling.damageBoots", 0.5);
+		defaults.put("netherBoiling.damageBoots", 0.3);
+		
+		defaults.put("diamondArmorDamage.enable", true);
+		defaults.put("diamondArmorDamage.damageHelmet", 0.5);
+		defaults.put("diamondArmorDamage.damageChestplate", 0.7);
+		defaults.put("diamondArmorDamage.damageLeggings", 0.5);
+		defaults.put("diamondArmorDamage.damageBoots", 0.3);
+		
 		{
 			defaults.put("fistBreakDamage.log.enable", true);
 			List<String> blocks = new ArrayList<>();
@@ -196,14 +204,39 @@ public class Configuration {
 		public static double damageHelmet() {
 			return Configuration.config.getDouble("netherBoiling.damageHelmet");
 		}
+		
 		public static double damageChestplate() {
 			return Configuration.config.getDouble("netherBoiling.damageChestplate");
 		}
+		
 		public static double damageLeggings() {
 			return Configuration.config.getDouble("netherBoiling.damageHelmet");
 		}
+		
 		public static double damageBoots() {
 			return Configuration.config.getDouble("netherBoiling.damageHelmet");
+		}
+		
+	}
+	
+	public static final class DiamondArmorDamage {
+		
+		public static boolean enable() {return Configuration.config.getBoolean("diamondArmorDamage.enable");}
+		
+		public static double damageHelmet() {
+			return Configuration.config.getDouble("diamondArmorDamage.damageHelmet");
+		}
+		
+		public static double damageChestplate() {
+			return Configuration.config.getDouble("diamondArmorDamage.damageChestplate");
+		}
+		
+		public static double damageLeggings() {
+			return Configuration.config.getDouble("diamondArmorDamage.damageHelmet");
+		}
+		
+		public static double damageBoots() {
+			return Configuration.config.getDouble("diamondArmorDamage.damageHelmet");
 		}
 		
 	}
