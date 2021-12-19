@@ -28,7 +28,7 @@ public class Configuration {
 	private static void createDefaults() {
 		defaults.put("fistBreakDamage.enable", true);
 		defaults.put("netherBoiling.enable", true);
-		defaults.put("netherBoiling.damagePerSecond", 0.4);
+		defaults.put("netherBoiling.damagePerSecond", 0.5);
 		{
 			defaults.put("fistBreakDamage.log.enable", true);
 			List<String> blocks = new ArrayList<>();
