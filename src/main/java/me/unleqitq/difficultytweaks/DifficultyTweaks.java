@@ -1,5 +1,6 @@
 package me.unleqitq.difficultytweaks;
 
+import me.unleqitq.difficultytweaks.listeners.DiamondArmorDamageListener;
 import me.unleqitq.difficultytweaks.listeners.EndermanListener;
 import me.unleqitq.difficultytweaks.listeners.FistBreakListener;
 import me.unleqitq.difficultytweaks.tasks.NetherBoilingTask;
@@ -20,6 +21,7 @@ public final class DifficultyTweaks extends JavaPlugin {
 		Configuration.loadConfig();
 		new EndermanListener();
 		new FistBreakListener();
+		new DiamondArmorDamageListener();
 		
 		if (Configuration.NetherBoiling.enable()) {
 			Bukkit.getScheduler().runTaskTimer(this, new NetherBoilingTask(), 20, 10);
