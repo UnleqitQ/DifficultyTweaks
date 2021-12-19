@@ -14,6 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -45,7 +46,13 @@ public class FistBreakListener implements Listener {
 								20, 20);
 					}
 					else {
-						Bukkit.getPluginManager().callEvent(new PlayerItemDamageEvent(event.getPlayer(), item, 2));
+						if (item.getItemMeta() instanceof Damageable) {
+							Damageable meta = (Damageable) item.getItemMeta();
+							meta.setDamage(meta.getDamage() + 2);
+						}
+						else {
+							item.setAmount(item.getAmount() - 1);
+						}
 						event.getPlayer().sendTitle(ChatColor.RED + "Damn it",
 								ChatColor.GOLD + "Get some appropriate tools first", 0, 20, 20);
 					}
