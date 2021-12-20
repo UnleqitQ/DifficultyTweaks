@@ -3,7 +3,6 @@ package me.unleqitq.difficultytweaks.tasks;
 import me.unleqitq.difficultytweaks.Configuration;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class NetherBoilingTask implements Runnable {

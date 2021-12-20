@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
-import org.spigotmc.event.entity.EntityDismountEvent;
 
 import java.io.File;
 import java.io.IOException;
