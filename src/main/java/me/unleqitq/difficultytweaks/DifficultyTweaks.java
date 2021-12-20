@@ -21,7 +21,6 @@ public final class DifficultyTweaks extends JavaPlugin {
 		new FistBreakListener();
 		new DiamondArmorDamageListener();
 		new DamageSlownessListener();
-		new DeathListener();
 		
 		if (Configuration.NetherBoiling.enable()) {
 			Bukkit.getScheduler().runTaskTimer(this, new NetherBoilingTask(), 20, 10);

@@ -7,21 +7,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemDamageEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -43,7 +35,6 @@ public class FistBreakListener implements Listener {
 		}
 	}
 	
-	@SuppressWarnings ("deprecation")
 	@EventHandler
 	public void onHitBlock(@NotNull PlayerInteractEvent event) {
 		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
@@ -55,29 +46,16 @@ public class FistBreakListener implements Listener {
 			if (types.containsKey(block.getType())) {
 				ToolType type = types.get(block.getType());
 				if (!type.tools.contains(tool)) {
+					event.getPlayer().damage(2);
+					EntityDamageByBlockEvent cause = new EntityDamageByBlockEvent(block, event.getPlayer(),
+							EntityDamageEvent.DamageCause.CONTACT, 2);
+					event.getPlayer().setLastDamageCause(cause);
+					Bukkit.getPluginManager().callEvent(cause);
 					if (tool == Material.AIR) {
-						//event.getPlayer().damage(2);
-						FistHitEvent cause = new FistHitEvent(block, event.getPlayer(),
-								EntityDamageEvent.DamageCause.CONTACT, 2);
-						//event.getPlayer().setLastDamageCause(cause);
-						Bukkit.getPluginManager().callEvent(cause);
 						event.getPlayer().sendTitle(ChatColor.RED + "Ouch", ChatColor.GOLD + "Get some tools first", 0,
 								20, 20);
 					}
 					else {
-						ItemStack item = event.getItem();
-						if (item.getItemMeta() instanceof Damageable) {
-							Damageable meta = (Damageable) item.getItemMeta();
-							meta.setDamage(meta.getDamage() + 2);
-							item.setItemMeta(meta);
-							if (meta.getDamage() >= tool.getMaxDurability()) {
-								item.setAmount(item.getAmount() - 1);
-							}
-						}
-						else {
-							item.setAmount(item.getAmount() - 1);
-							event.getPlayer().sendMessage("" + item.getAmount());
-						}
 						event.getPlayer().sendTitle(ChatColor.RED + "Damn it",
 								ChatColor.GOLD + "Get some appropriate tools first", 0, 20, 20);
 					}
@@ -89,19 +67,19 @@ public class FistBreakListener implements Listener {
 	private static class ToolType {
 		
 		String name;
-		Set<Material> blocks;
+		//Set<Material> blocks;
 		Set<Material> tools;
 		
 		public ToolType(String name) {
 			this.name = name;
 			List<String> toolList = Configuration.FistBreakDamage.Type.tools(name);
 			List<String> blockList = Configuration.FistBreakDamage.Type.blocks(name);
-			blocks = new HashSet<>();
+			//blocks = new HashSet<>();
 			tools = new HashSet<>();
 			for (String block : blockList) {
 				try {
 					Bukkit.getLogger().log(Level.INFO, block);
-					blocks.add(Material.getMaterial(block));
+					//blocks.add(Material.getMaterial(block));
 					FistBreakListener.types.put(Material.getMaterial(block), this);
 				} catch (NullPointerException e) {
 					Bukkit.getLogger().log(Level.WARNING, "Did not recognize Material " + block);
@@ -120,12 +98,5 @@ public class FistBreakListener implements Listener {
 		
 	}
 	
-	public static class FistHitEvent extends EntityDamageByBlockEvent {
-		
-		public FistHitEvent(@Nullable final Block damager, @NotNull final Entity damagee, @NotNull final DamageCause cause, final double damage) {
-			super(damager, damagee, cause, damage);
-		}
-		
-	}
 	
 }
