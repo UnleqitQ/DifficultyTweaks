@@ -2,8 +2,6 @@ package me.unleqitq.difficultytweaks.listeners;
 
 import me.unleqitq.difficultytweaks.Configuration;
 import me.unleqitq.difficultytweaks.DifficultyTweaks;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.objecthunter.exp4j.Expression;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -46,8 +44,6 @@ public class StumbleListener implements Listener {
 				if (!durationMap.containsKey(event.getPlayer().getUniqueId())) {
 					durationMap.put(event.getPlayer().getUniqueId(), event.getPlayer().getTicksLived());
 				}
-				event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
-						new TextComponent(String.format("distance: %04.02f", distance)));
 				if (duration > 10) {
 					if (stumble(event.getPlayer(), distance)) {
 						distance = 0;
