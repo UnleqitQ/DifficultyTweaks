@@ -105,8 +105,9 @@ public class Configuration {
 		
 		configFile = new File(folder, "config");
 		
-		// save default config to add new content or recreate deleted ones
 		DifficultyTweaks.getInstance().saveDefaultConfig();
+		
+		
 		config = (YamlConfiguration) DifficultyTweaks.getInstance().getConfig();
 	}
 	
@@ -192,6 +193,14 @@ public class Configuration {
 		
 		public static boolean enable() {
 			return Configuration.config.getBoolean("endermanMount.enable");
+		}
+		
+	}
+	
+	public static final class NetherNoWaterCauldron {
+		
+		public static boolean enable() {
+			return Configuration.config.getBoolean("netherNoWaterCauldron.enable");
 		}
 		
 	}

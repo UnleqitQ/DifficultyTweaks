@@ -21,12 +21,14 @@ import java.util.*;
 public class StumbleListener implements Listener {
 	
 	private Map<UUID, Double> distanceMap;
+	private Map<UUID, Double> probMap;
 	private Map<UUID, Integer> durationMap;
 	
 	public StumbleListener() {
 		Bukkit.getPluginManager().registerEvents(this, DifficultyTweaks.getInstance());
 		distanceMap = new HashMap<>();
 		durationMap = new HashMap<>();
+		probMap = new HashMap<>();
 	}
 	
 	@EventHandler
@@ -34,6 +36,9 @@ public class StumbleListener implements Listener {
 		if (Configuration.Stumble.enable() && event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getPlayer().getGameMode() != GameMode.SPECTATOR) {
 			double d = Objects.requireNonNullElse(event.getTo(), event.getFrom()).distance(event.getFrom());
 			if (d > 0) {
+				if (!probMap.containsKey(event.getPlayer().getUniqueId())) {
+					probMap.put(event.getPlayer().getUniqueId(), Math.random());
+				}
 				double distance = distanceMap.getOrDefault(event.getPlayer().getUniqueId(), 0.0);
 				distance += d;
 				int duration = event.getPlayer().getTicksLived() - durationMap.getOrDefault(
@@ -44,6 +49,7 @@ public class StumbleListener implements Listener {
 				if (duration > 10) {
 					if (stumble(event.getPlayer(), distance)) {
 						distance = 0;
+						probMap.put(event.getPlayer().getUniqueId(), Math.random());
 					}
 					durationMap.put(event.getPlayer().getUniqueId(), event.getPlayer().getTicksLived());
 				}
@@ -65,7 +71,7 @@ public class StumbleListener implements Listener {
 		expression.setVariable("d", distance);
 		double prob = expression.evaluate();
 		
-		if (Math.random() < prob * 0.5) {
+		if (Math.random() < probMap.get(player.getUniqueId()) * 0.5) {
 			if (Configuration.Stumble.damage() > 0) {
 				player.damage(Configuration.Stumble.damage());
 			}

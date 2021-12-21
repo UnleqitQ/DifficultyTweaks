@@ -79,7 +79,6 @@ public class FistBreakListener implements Listener {
 			tools = new HashSet<>();
 			for (String block : blockList) {
 				try {
-					Bukkit.getLogger().log(Level.INFO, block);
 					//blocks.add(Material.getMaterial(block));
 					FistBreakListener.types.put(Material.getMaterial(block), this);
 				} catch (NullPointerException e) {

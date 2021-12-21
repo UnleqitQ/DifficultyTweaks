@@ -102,3 +102,5 @@ damageSlowness:
   enable: true
   # 20 ticks = 1 second
   duration: 40
+netherNoWaterCauldron:
+  enable: true
