@@ -106,8 +106,7 @@ public class Configuration {
 		configFile = new File(folder, "config");
 		
 		// save default config to add new content or recreate deleted ones
-		DifficultyTweaks.getInstance().getConfig().options().copyDefaults(true);
-		DifficultyTweaks.getInstance().saveConfig();
+		DifficultyTweaks.getInstance().saveDefaultConfig();
 		config = (YamlConfiguration) DifficultyTweaks.getInstance().getConfig();
 	}
 	
