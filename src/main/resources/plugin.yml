@@ -6,4 +6,3 @@ load: STARTUP
 authors: [ UnleqitQ ]
 libraries:
   - net.objecthunter:exp4j:0.4.8
-  - io.ipgeolocation:ipgeolocation:1.0.12
