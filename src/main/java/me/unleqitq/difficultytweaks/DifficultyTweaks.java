@@ -1,9 +1,6 @@
 package me.unleqitq.difficultytweaks;
 
-import me.unleqitq.difficultytweaks.listeners.DamageSlownessListener;
-import me.unleqitq.difficultytweaks.listeners.DiamondArmorDamageListener;
-import me.unleqitq.difficultytweaks.listeners.EndermanListener;
-import me.unleqitq.difficultytweaks.listeners.FistBreakListener;
+import me.unleqitq.difficultytweaks.listeners.*;
 import me.unleqitq.difficultytweaks.tasks.NetherBoilingTask;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
@@ -24,6 +21,7 @@ public final class DifficultyTweaks extends JavaPlugin {
 		new FistBreakListener();
 		new DiamondArmorDamageListener();
 		new DamageSlownessListener();
+		new StumbleListener();
 		
 		if (Configuration.NetherBoiling.enable()) {
 			Bukkit.getScheduler().runTaskTimer(this, new NetherBoilingTask(), 20, 10);

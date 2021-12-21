@@ -4,6 +4,7 @@ import me.unleqitq.difficultytweaks.Configuration;
 import me.unleqitq.difficultytweaks.DifficultyTweaks;
 import net.objecthunter.exp4j.Expression;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +26,7 @@ public class StumbleListener implements Listener {
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
-		if (Configuration.Stumble.enable()) {
+		if (Configuration.Stumble.enable() && event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getPlayer().getGameMode() != GameMode.SPECTATOR) {
 			double d = Objects.requireNonNullElse(event.getTo(), event.getFrom()).distance(event.getFrom());
 			if (d > 0) {
 				double distance = distanceMap.getOrDefault(event.getPlayer().getUniqueId(), 0.0);

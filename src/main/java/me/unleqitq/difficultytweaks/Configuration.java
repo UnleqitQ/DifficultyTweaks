@@ -97,6 +97,21 @@ public class Configuration {
 	
 	public static void loadConfig() {
 		folder = DifficultyTweaks.getInstance().getDataFolder();
+		//Create Folder
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		configFile = new File(folder, "config");
+		
+		// save default config to add new content or recreate deleted ones
+		DifficultyTweaks.getInstance().getConfig().options().copyDefaults(true);
+		DifficultyTweaks.getInstance().saveConfig();
+		config = (YamlConfiguration) DifficultyTweaks.getInstance().getConfig();
+	}
+	
+	public static void loadConfig0() {
+		folder = DifficultyTweaks.getInstance().getDataFolder();
 		folder.mkdirs();
 		configFile = new File(folder, "config.yml");
 		if (!configFile.exists()) {

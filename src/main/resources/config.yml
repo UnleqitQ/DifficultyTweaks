@@ -1,0 +1,79 @@
+fistBreakDamage:
+  log:
+    enable: true
+    tools:
+      - WOODEN_AXE
+      - STONE_AXE
+      - GOLDEN_AXE
+      - IRON_AXE
+      - DIAMOND_AXE
+      - NETHERITE_AXE
+    blocks:
+      - ACACIA_LOG
+      - BIRCH_LOG
+      - DARK_OAK_LOG
+      - JUNGLE_LOG
+      - OAK_LOG
+      - SPRUCE_LOG
+      - STRIPPED_ACACIA_LOG
+      - STRIPPED_BIRCH_LOG
+      - STRIPPED_DARK_OAK_LOG
+      - STRIPPED_JUNGLE_LOG
+      - STRIPPED_OAK_LOG
+      - STRIPPED_SPRUCE_LOG
+      - ACACIA_WOOD
+      - BIRCH_WOOD
+      - DARK_OAK_WOOD
+      - JUNGLE_WOOD
+      - OAK_WOOD
+      - SPRUCE_WOOD
+      - STRIPPED_ACACIA_WOOD
+      - STRIPPED_BIRCH_WOOD
+      - STRIPPED_DARK_OAK_WOOD
+      - STRIPPED_JUNGLE_WOOD
+      - STRIPPED_OAK_WOOD
+      - STRIPPED_SPRUCE_WOOD
+  rock:
+    enable: true
+    tools:
+      - WOODEN_PICKAXE
+      - STONE_PICKAXE
+      - GOLDEN_PICKAXE
+      - IRON_PICKAXE
+      - DIAMOND_PICKAXE
+      - NETHERITE_PICKAXE
+    blocks:
+      - STONE
+      - COBBLESTONE
+      - ANDESITE
+      - GRANITE
+      - DIORITE
+      - SMOOTH_STONE
+      - POLISHED_ANDESITE
+      - POLISHED_GRANITE
+      - POLISHED_DIORITE
+      - DEEPSLATE
+      - POLISHED_DEEPSLATE
+      - COBBLED_DEEPSLATE
+  enable: true
+  types:
+    - log
+    - rock
+netherBoiling:
+  enable: true
+  damageHelmet: 0.5
+  damageChestplate: 0.5
+  damageLeggings: 0.5
+  damageBoots: 0.5
+diamondArmorDamage:
+  enable: false
+  damageHelmet: 0.5
+  damageChestplate: 0.7
+  damageLeggings: 0.5
+  damageBoots: 0.3
+stumble:
+  enable: true
+  damage: 0.4
+  looseItems: 0.6
+  looseItem: 0.8
+  probability: d/1000
