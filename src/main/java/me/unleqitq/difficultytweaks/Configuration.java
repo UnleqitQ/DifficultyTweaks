@@ -1,5 +1,7 @@
 package me.unleqitq.difficultytweaks;
 
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -39,6 +41,12 @@ public class Configuration {
 		defaults.put("diamondArmorDamage.damageChestplate", 0.7);
 		defaults.put("diamondArmorDamage.damageLeggings", 0.5);
 		defaults.put("diamondArmorDamage.damageBoots", 0.3);
+		
+		defaults.put("stumble.enable", true);
+		defaults.put("stumble.damage", 0.35);
+		defaults.put("stumble.looseItems", 0.6);
+		defaults.put("stumble.looseItem", 0.8);
+		defaults.put("stumble.probability", "d/1000");
 		
 		{
 			defaults.put("fistBreakDamage.log.enable", true);
@@ -216,6 +224,44 @@ public class Configuration {
 		public static double damageBoots() {
 			return Configuration.config.getDouble("netherBoiling.damageHelmet");
 		}
+		
+	}
+	
+	public static final class Stumble {
+		
+		private static Expression expression;
+		
+		public static Expression getFunction() {
+			if (expression == null) {
+				expression = new ExpressionBuilder(probability()).variables("x", "y", "z", "pitch", "yaw", "d").build();
+				if (!expression.validate().isValid()) {
+					Bukkit.getLogger().log(Level.SEVERE, "Probability function not correct");
+					expression = new ExpressionBuilder("d/1000").variables("x", "y", "z", "pitch", "yaw", "d").build();
+				}
+			}
+			return expression;
+		}
+		
+		public static boolean enable() {
+			return Configuration.config.getBoolean("stumble.enable");
+		}
+		
+		public static double damage() {
+			return Configuration.config.getDouble("stumble.damage");
+		}
+		
+		public static double looseItems() {
+			return Configuration.config.getDouble("stumble.looseItems");
+		}
+		
+		public static double looseItem() {
+			return Configuration.config.getDouble("stumble.looseItem");
+		}
+		
+		public static String probability() {
+			return Configuration.config.getString("stumble.probability");
+		}
+		
 		
 	}
 	
