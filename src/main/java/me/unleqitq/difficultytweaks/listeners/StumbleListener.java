@@ -2,9 +2,14 @@ package me.unleqitq.difficultytweaks.listeners;
 
 import me.unleqitq.difficultytweaks.Configuration;
 import me.unleqitq.difficultytweaks.DifficultyTweaks;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.objecthunter.exp4j.Expression;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,15 +18,20 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 public class StumbleListener implements Listener {
 	
 	private Map<UUID, Double> distanceMap;
+	private Map<UUID, Integer> durationMap;
 	
 	public StumbleListener() {
 		Bukkit.getPluginManager().registerEvents(this, DifficultyTweaks.getInstance());
 		distanceMap = new HashMap<>();
+		durationMap = new HashMap<>();
 	}
 	
 	@EventHandler
@@ -31,8 +41,18 @@ public class StumbleListener implements Listener {
 			if (d > 0) {
 				double distance = distanceMap.getOrDefault(event.getPlayer().getUniqueId(), 0.0);
 				distance += d;
-				if (stumble(event.getPlayer(), distance)) {
-					distance = 0;
+				int duration = event.getPlayer().getTicksLived() - durationMap.getOrDefault(
+						event.getPlayer().getUniqueId(), event.getPlayer().getTicksLived());
+				if (!durationMap.containsKey(event.getPlayer().getUniqueId())) {
+					durationMap.put(event.getPlayer().getUniqueId(), event.getPlayer().getTicksLived());
+				}
+				event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
+						new TextComponent(String.format("distance: %04.02f", distance)));
+				if (duration > 10) {
+					if (stumble(event.getPlayer(), distance)) {
+						distance = 0;
+					}
+					durationMap.put(event.getPlayer().getUniqueId(), event.getPlayer().getTicksLived());
 				}
 				distanceMap.put(event.getPlayer().getUniqueId(), distance);
 			}
@@ -48,22 +68,27 @@ public class StumbleListener implements Listener {
 		expression.setVariable("yaw", player.getLocation().getYaw());
 		expression.setVariable("d", distance);
 		double prob = expression.evaluate();
-		if (Math.random() < prob) {
+		
+		if (Math.random() < prob * 0.5) {
 			if (Configuration.Stumble.damage() > 0) {
 				player.damage(Configuration.Stumble.damage());
 			}
 			if (Math.random() < Configuration.Stumble.looseItems()) {
-				List<ItemStack> inv = List.of(player.getInventory().getStorageContents());
-				for (ItemStack itemStack : inv) {
-					if (Math.random() < Configuration.Stumble.looseItem()) {
-						player.getInventory().remove(itemStack);
-						player.getWorld().dropItem(
-								player.getLocation().add(Math.random() * 2 - 1, Math.random(), Math.random() * 2 - 1),
-								itemStack);
+				for (int i = 0; i < player.getInventory().getSize(); i++) {
+					ItemStack itemStack = player.getInventory().getItem(i);
+					if (itemStack != null && itemStack.getType() != Material.AIR) {
+						if (Math.random() < Configuration.Stumble.looseItem()) {
+							Item entity = player.getWorld().dropItem(
+									player.getLocation().add(Math.random() * 2 - 1, Math.random(),
+											Math.random() * 2 - 1), itemStack);
+							player.getInventory().setItem(i, new ItemStack(Material.AIR));
+							entity.setPickupDelay(20);
+						}
 					}
 				}
 			}
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 2, 6));
+			player.sendTitle(ChatColor.RED.toString() + ChatColor.BOLD + "You Stumbled", "", 4, 16, 10);
 			return true;
 		}
 		return false;

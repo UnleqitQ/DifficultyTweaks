@@ -4,3 +4,4 @@ main: me.unleqitq.difficultytweaks.DifficultyTweaks
 api-version: 1.17
 load: STARTUP
 authors: [ UnleqitQ ]
+libraries: [ net.objecthunter:exp4j:0.4.8 ]

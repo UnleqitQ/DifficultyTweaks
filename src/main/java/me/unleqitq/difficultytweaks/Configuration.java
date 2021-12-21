@@ -2,6 +2,7 @@ package me.unleqitq.difficultytweaks;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import net.objecthunter.exp4j.ValidationResult;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -249,8 +250,14 @@ public class Configuration {
 		public static Expression getFunction() {
 			if (expression == null) {
 				expression = new ExpressionBuilder(probability()).variables("x", "y", "z", "pitch", "yaw", "d").build();
-				if (!expression.validate().isValid()) {
+				ValidationResult result = expression.validate(false);
+				if (!result.isValid()) {
 					Bukkit.getLogger().log(Level.SEVERE, "Probability function not correct");
+					Bukkit.getLogger().log(Level.SEVERE, result.toString());
+					for (String s : result.getErrors()) {
+						Bukkit.getLogger().log(Level.SEVERE, s);
+					}
+					Bukkit.getLogger().log(Level.SEVERE, "Input: " + probability());
 					expression = new ExpressionBuilder("d/1000").variables("x", "y", "z", "pitch", "yaw", "d").build();
 				}
 			}
