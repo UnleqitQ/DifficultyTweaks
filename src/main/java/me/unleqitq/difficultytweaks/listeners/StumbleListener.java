@@ -39,6 +39,8 @@ public class StumbleListener implements Listener {
 				if (!probMap.containsKey(event.getPlayer().getUniqueId())) {
 					probMap.put(event.getPlayer().getUniqueId(), Math.random());
 				}
+				if (event.getPlayer().isInWater())
+					return;
 				double distance = distanceMap.getOrDefault(event.getPlayer().getUniqueId(), 0.0);
 				distance += d;
 				int duration = event.getPlayer().getTicksLived() - durationMap.getOrDefault(
@@ -71,7 +73,7 @@ public class StumbleListener implements Listener {
 		expression.setVariable("d", distance);
 		double prob = expression.evaluate();
 		
-		if (Math.random() < probMap.get(player.getUniqueId()) * 0.5) {
+		if (probMap.get(player.getUniqueId()) < prob * 0.5) {
 			if (Configuration.Stumble.damage() > 0) {
 				player.damage(Configuration.Stumble.damage());
 			}
