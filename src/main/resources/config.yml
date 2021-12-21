@@ -1,6 +1,12 @@
+# Stop Endermen from mounting boats, minecarts etc.
+endermanMount:
+  enable: true
+# The Player takes damage when he is punching on a listed block without a tool from the same category
 fistBreakDamage:
+  # category name (no rules)
   log:
     enable: true
+    # tools to use
     tools:
       - WOODEN_AXE
       - STONE_AXE
@@ -8,6 +14,7 @@ fistBreakDamage:
       - IRON_AXE
       - DIAMOND_AXE
       - NETHERITE_AXE
+    # blocks applying to
     blocks:
       - ACACIA_LOG
       - BIRCH_LOG
@@ -56,24 +63,42 @@ fistBreakDamage:
       - POLISHED_DEEPSLATE
       - COBBLED_DEEPSLATE
   enable: true
+  # categories
   types:
     - log
     - rock
+# player start boiling in the nether when wearing armor that is not Leather or Chain
 netherBoiling:
   enable: true
-  damageHelmet: 0.5
-  damageChestplate: 0.5
-  damageLeggings: 0.5
-  damageBoots: 0.5
-diamondArmorDamage:
-  enable: false
   damageHelmet: 0.5
   damageChestplate: 0.7
   damageLeggings: 0.5
   damageBoots: 0.3
+# player take damage when wearing diamond armor
+diamondArmorDamage:
+  enable: true
+  damageHelmet: 0.8
+  damageChestplate: 0.7
+  damageLeggings: 0.5
+  damageBoots: 0.3
+# players stumble sometimes
 stumble:
   enable: true
+  # the damage to be applied
   damage: 0.4
+  # the probability to drop items
   looseItems: 0.6
+  # for each item the probability to drop if looseItems applies
   looseItem: 0.8
-  probability: d/1000
+  # the probability to stumble
+  # d = distance walked since last stumble
+  # rm, rh = realtime minutes/hours
+  # gm, gh = game time minutes/hours
+  # yaw, pitch
+  probability: sqrt(d)/1000
+# on falling or everything else that damages legs in rl the player gets slowness
+# the amplifier depends on the damage taken
+damageSlowness:
+  enable: true
+  # 20 ticks = 1 second
+  duration: 40

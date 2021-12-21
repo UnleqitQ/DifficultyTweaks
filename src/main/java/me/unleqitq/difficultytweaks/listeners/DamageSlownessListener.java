@@ -1,5 +1,6 @@
 package me.unleqitq.difficultytweaks.listeners;
 
+import me.unleqitq.difficultytweaks.Configuration;
 import me.unleqitq.difficultytweaks.DifficultyTweaks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
@@ -18,10 +19,13 @@ public class DamageSlownessListener implements Listener {
 	
 	@EventHandler
 	public void onDamage(EntityDamageEvent event) {
-		if (event.getEntityType() == EntityType.PLAYER) {
-			if (event.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION || event.getCause() == EntityDamageEvent.DamageCause.FALL) {
-				((LivingEntity) event.getEntity()).addPotionEffect(
-						new PotionEffect(PotionEffectType.SLOW, 40, (int) (event.getDamage() / 2)));
+		if (Configuration.DamageSlowness.enable()) {
+			if (event.getEntityType() == EntityType.PLAYER) {
+				if (event.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION || event.getCause() == EntityDamageEvent.DamageCause.FALL) {
+					((LivingEntity) event.getEntity()).addPotionEffect(
+							new PotionEffect(PotionEffectType.SLOW, Configuration.DamageSlowness.duration(),
+									(int) (event.getDamage() / 2)));
+				}
 			}
 		}
 	}

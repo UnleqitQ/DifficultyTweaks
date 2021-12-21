@@ -1,5 +1,6 @@
 package me.unleqitq.difficultytweaks.listeners;
 
+import me.unleqitq.difficultytweaks.Configuration;
 import me.unleqitq.difficultytweaks.DifficultyTweaks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
@@ -15,8 +16,10 @@ public class EndermanListener implements Listener {
 	
 	@EventHandler
 	public void onMount(EntityMountEvent event) {
-		if (event.getEntityType() == EntityType.ENDERMAN) {
-			event.setCancelled(true);
+		if (Configuration.EndermanMount.enable()) {
+			if (event.getEntityType() == EntityType.ENDERMAN) {
+				event.setCancelled(true);
+			}
 		}
 	}
 	

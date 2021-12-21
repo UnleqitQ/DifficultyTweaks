@@ -23,41 +23,42 @@ public class FistBreakListener implements Listener {
 	public static Map<Material, ToolType> types;
 	
 	public FistBreakListener() {
-		if (Configuration.FistBreakDamage.enable()) {
-			Bukkit.getPluginManager().registerEvents(this, DifficultyTweaks.getInstance());
-			types = new HashMap<>();
-			for (String type : Configuration.FistBreakDamage.types()) {
-				if (Configuration.FistBreakDamage.Type.enable(type)) {
-					new ToolType(type);
-				}
+		Bukkit.getPluginManager().registerEvents(this, DifficultyTweaks.getInstance());
+		types = new HashMap<>();
+		for (String type : Configuration.FistBreakDamage.types()) {
+			if (Configuration.FistBreakDamage.Type.enable(type)) {
+				new ToolType(type);
 			}
-			
 		}
+		
 	}
 	
 	@EventHandler
 	public void onHitBlock(@NotNull PlayerInteractEvent event) {
-		if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
-			return;
-		}
-		if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-			Block block = Objects.requireNonNull(event.getClickedBlock());
-			Material tool = event.getMaterial();
-			if (types.containsKey(block.getType())) {
-				ToolType type = types.get(block.getType());
-				if (!type.tools.contains(tool)) {
-					event.getPlayer().damage(2);
-					EntityDamageByBlockEvent cause = new EntityDamageByBlockEvent(block, event.getPlayer(),
-							EntityDamageEvent.DamageCause.CONTACT, 2);
-					event.getPlayer().setLastDamageCause(cause);
-					Bukkit.getPluginManager().callEvent(cause);
-					if (tool == Material.AIR) {
-						event.getPlayer().sendTitle(ChatColor.RED + "Ouch", ChatColor.GOLD + "Get some tools first", 0,
-								20, 20);
-					}
-					else {
-						event.getPlayer().sendTitle(ChatColor.RED + "Damn it",
-								ChatColor.GOLD + "Get some appropriate tools first", 0, 20, 20);
+		if (Configuration.FistBreakDamage.enable()) {
+			if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
+				return;
+			}
+			if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+				Block block = Objects.requireNonNull(event.getClickedBlock());
+				Material tool = event.getMaterial();
+				if (types.containsKey(block.getType())) {
+					ToolType type = types.get(block.getType());
+					if (!type.tools.contains(tool)) {
+						event.getPlayer().damage(2);
+						EntityDamageByBlockEvent cause = new EntityDamageByBlockEvent(block, event.getPlayer(),
+								EntityDamageEvent.DamageCause.CONTACT, 2);
+						event.getPlayer().setLastDamageCause(cause);
+						Bukkit.getPluginManager().callEvent(cause);
+						if (tool == Material.AIR) {
+							event.getPlayer().sendTitle(ChatColor.RED + "Ouch", ChatColor.GOLD + "Get some tools first",
+									0,
+									20, 20);
+						}
+						else {
+							event.getPlayer().sendTitle(ChatColor.RED + "Damn it",
+									ChatColor.GOLD + "Get some appropriate tools first", 0, 20, 20);
+						}
 					}
 				}
 			}

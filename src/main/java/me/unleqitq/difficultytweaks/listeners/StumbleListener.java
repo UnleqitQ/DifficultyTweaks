@@ -16,10 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class StumbleListener implements Listener {
 	
@@ -57,9 +54,12 @@ public class StumbleListener implements Listener {
 	
 	private boolean stumble(Player player, double distance) {
 		Expression expression = new Expression(Configuration.Stumble.getFunction());
-		expression.setVariable("x", player.getLocation().getX());
-		expression.setVariable("y", player.getLocation().getY());
-		expression.setVariable("z", player.getLocation().getZ());
+		Calendar time = Calendar.getInstance();
+		
+		expression.setVariable("gm", (int) ((float) (player.getWorld().getTime() % 1000) / 1000 * 60));
+		expression.setVariable("gh", (float) ((player.getWorld().getTime() / 1000 + 6) % 24));
+		expression.setVariable("rm", time.get(Calendar.MINUTE));
+		expression.setVariable("rh", time.get(Calendar.HOUR_OF_DAY));
 		expression.setVariable("pitch", player.getLocation().getPitch());
 		expression.setVariable("yaw", player.getLocation().getYaw());
 		expression.setVariable("d", distance);

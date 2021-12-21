@@ -188,6 +188,27 @@ public class Configuration {
 		return config;
 	}
 	
+	
+	public static final class EndermanMount {
+		
+		public static boolean enable() {
+			return Configuration.config.getBoolean("endermanMount.enable");
+		}
+		
+	}
+	
+	public static final class DamageSlowness {
+		
+		public static boolean enable() {
+			return Configuration.config.getBoolean("damageSlowness.enable");
+		}
+		
+		public static int duration() {
+			return Configuration.config.getInt("damageSlowness.duration");
+		}
+		
+	}
+	
 	public static final class FistBreakDamage {
 		
 		public static boolean enable() {

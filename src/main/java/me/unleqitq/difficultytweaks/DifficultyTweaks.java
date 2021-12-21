@@ -23,9 +23,7 @@ public final class DifficultyTweaks extends JavaPlugin {
 		new DamageSlownessListener();
 		new StumbleListener();
 		
-		if (Configuration.NetherBoiling.enable()) {
-			Bukkit.getScheduler().runTaskTimer(this, new NetherBoilingTask(), 20, 10);
-		}
+		Bukkit.getScheduler().runTaskTimer(this, new NetherBoilingTask(), 20, 10);
 	}
 	
 	@Override
