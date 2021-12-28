@@ -11,7 +11,8 @@ public class NetherBoilingTask implements Runnable {
 	public void run() {
 		if (Configuration.NetherBoiling.enable()) {
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (player.getGameMode() != GameMode.SPECTATOR && player.getGameMode() != GameMode.CREATIVE) {
+				if (!player.hasPermission(
+						"difficultytweaks.bypass") && player.getGameMode() != GameMode.SPECTATOR && player.getGameMode() != GameMode.CREATIVE) {
 					if (player.getWorld().getEnvironment() == World.Environment.NETHER) {
 						PlayerInventory inv = player.getInventory();
 						if (inv.getHelmet() != null) {

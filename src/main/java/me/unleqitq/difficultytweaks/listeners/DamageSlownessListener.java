@@ -21,7 +21,8 @@ public class DamageSlownessListener implements Listener {
 	public void onDamage(EntityDamageEvent event) {
 		if (Configuration.DamageSlowness.enable()) {
 			if (event.getEntityType() == EntityType.PLAYER) {
-				if (event.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION || event.getCause() == EntityDamageEvent.DamageCause.FALL) {
+				if (!event.getEntity().hasPermission(
+						"difficultytweaks.bypass") && event.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION || event.getCause() == EntityDamageEvent.DamageCause.FALL) {
 					((LivingEntity) event.getEntity()).addPotionEffect(
 							new PotionEffect(PotionEffectType.SLOW, Configuration.DamageSlowness.duration(),
 									(int) (event.getDamage() / 2)));

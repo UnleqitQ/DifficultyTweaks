@@ -33,7 +33,8 @@ public class StumbleListener implements Listener {
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent event) {
-		if (Configuration.Stumble.enable() && event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getPlayer().getGameMode() != GameMode.SPECTATOR) {
+		if (!event.getPlayer().hasPermission(
+				"difficultytweaks.bypass") && Configuration.Stumble.enable() && event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getPlayer().getGameMode() != GameMode.SPECTATOR) {
 			double d = Objects.requireNonNullElse(event.getTo(), event.getFrom()).distance(event.getFrom());
 			if (d > 0) {
 				if (!probMap.containsKey(event.getPlayer().getUniqueId())) {

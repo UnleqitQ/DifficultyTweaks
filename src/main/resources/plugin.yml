@@ -4,5 +4,10 @@ main: me.unleqitq.difficultytweaks.DifficultyTweaks
 api-version: 1.17
 load: STARTUP
 authors: [ UnleqitQ ]
+softdepend:
+  - GeoApi
 libraries:
   - net.objecthunter:exp4j:0.4.8
+permissions:
+  difficultytweaks.bypass:
+    description: bypass difficulties

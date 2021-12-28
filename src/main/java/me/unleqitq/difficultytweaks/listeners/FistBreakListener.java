@@ -39,7 +39,8 @@ public class FistBreakListener implements Listener {
 			if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
 				return;
 			}
-			if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+			if (!event.getPlayer().hasPermission(
+					"difficultytweaks.bypass") && event.getAction() == Action.LEFT_CLICK_BLOCK) {
 				Block block = Objects.requireNonNull(event.getClickedBlock());
 				Material tool = event.getMaterial();
 				if (types.containsKey(block.getType())) {

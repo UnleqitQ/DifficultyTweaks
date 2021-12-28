@@ -27,7 +27,8 @@ public class NetherNoWaterCauldronListener implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		if (Configuration.NetherNoWaterCauldron.enable()) {
-			if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			if (!event.getPlayer().hasPermission(
+					"difficultytweaks.bypass") && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				if (Objects.requireNonNull(
 						event.getClickedBlock()).getType() == Material.CAULDRON || event.getClickedBlock().getType() == Material.WATER_CAULDRON) {
 					if (event.getClickedBlock().getWorld().getEnvironment() == World.Environment.NETHER) {

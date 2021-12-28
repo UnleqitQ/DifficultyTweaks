@@ -22,7 +22,8 @@ public class DiamondArmorDamageListener implements Listener {
 	
 	@EventHandler
 	public void onMove(@NotNull PlayerMoveEvent event) {
-		if (Configuration.DiamondArmorDamage.enable()) {
+		if (!event.getPlayer().hasPermission(
+				"difficultytweaks.bypass") && Configuration.DiamondArmorDamage.enable()) {
 			if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
 				return;
 			}
